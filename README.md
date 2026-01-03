@@ -15,6 +15,10 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - グラフタイプ選択（line / bar / scatter）
 - Swagger UI で操作可能
 
+## Demo
+
+![Swagger UI](images/swagger-ui.png)
+
 ---
 
 ## Tech Stack
