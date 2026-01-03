@@ -2,7 +2,7 @@ from io import BytesIO
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 
 app = FastAPI()
@@ -22,20 +22,32 @@ async def stats(file: UploadFile = File(...)):
 
 
 @app.post("/plot")
-async def plot(file: UploadFile = File(...), column: str = None, type: str = "line"):
+async def plot(file: UploadFile = File(...), column: str = Form(...), type: str = "line"):
     df = pd.read_csv(file.file)
 
-    if column not in df.columns:
-        return JSONResponse({"error": f"column '{column}' not found"}, status_code=400)
+    columns = [c.strip() for c in column.split(",")]
+
+    for c in columns:
+        if c not in df.columns:
+            return JSONResponse({"error": f"column '{c}' not found"}, status_code=400)
 
     plt.figure()
 
     if type == "line":
-        df[column].plot()
+        for c in columns:
+            plt.plot(df[c], label=c)
+        plt.legend()
     elif type == "bar":
-        df[column].plot(kind="bar")
+        df[columns].plot(kind="bar")
+        plt.legend()
     elif type == "scatter":
-        plt.scatter(range(len(df[column])), df[column])
+        if len(columns) != 2:
+            return JSONResponse(
+                {"error": "scatter requires exactly 2 columns"}, status_code=400
+            )
+        plt.scatter(df[columns[0]], df[columns[1]])
+        plt.xlabel(columns[0])
+        plt.ylabel(columns[1])
     else:
         return JSONResponse(
             {"error": f"Unknown graph type '{type}'. Use line/bar/scatter"},
@@ -43,6 +55,7 @@ async def plot(file: UploadFile = File(...), column: str = None, type: str = "li
         )
 
     buf = BytesIO()
+    plt.tight_layout()
     plt.savefig(buf, format="png")
     buf.seek(0)
     plt.close()
