@@ -12,15 +12,31 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - CSVファイルをアップロード
 - 数値カラムの統計情報をJSONで取得
 - 指定カラムのグラフ画像を生成
-- グラフタイプ選択(ine / bar / scatter)
-- 複数カラム対応(例： `price / sales`)
+- グラフタイプ選択（line / bar / scatter）
+- 複数カラム対応（例: `price,sales`）
 - Swagger UI で操作可能
+- Docker 対応
+- HTTPS 公開対応（nginx + Let's Encrypt）
 
 ---
 
 ## Demo
 
+### Local / Docker (Swagger UI)
+
 ![Swagger UI](images/swagger-ui.png)
+
+### Docker (Public Access)
+
+![Docker Swagger UI](images/docker-swagger-ui.png)
+
+---
+
+## Public Access
+
+This API is publicly available at:
+
+- https://oit2003.com/docs
 
 ---
 
@@ -32,10 +48,12 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - matplotlib
 - uvicorn
 - Docker
+- nginx
+- Let's Encrypt
 
 ---
 
-## Setup
+## Setup (Local)
 
 ```bash
 git clone https://github.com/oit2003/csv-api.git
@@ -45,7 +63,7 @@ source venv/bin/activate
 pip install fastapi uvicorn pandas matplotlib python-multipart
 ```
 
-起動：
+Run:
 
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
@@ -55,24 +73,24 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 ## Docker
 
-Python環境を用意せずにDockerだけで起動できます。
+You can run this API without setting up a Python environment.
 
 ### Build
 
 ```bash
-docker build -t csv-api
+docker build -t csv-api .
 ```
 
 ### Run
 
 ```bash
-docker run -p 8000:8000 csv-api
+docker run -d --restart unless-stopped -p 127.0.0.1:8000:8000 csv-api
 ```
 
-ブラウザで開く：
+Open:
 
 ```
-http://localhost:8000/docs
+https://oit2003.com/docs
 ```
 
 ---
@@ -114,7 +132,7 @@ POST /plot
 **Parameters**
 
 - file: CSV file
-- column: column name
+- column: column name  
   - single: `price`
   - multiple: `price,sales`
 - type: line | bar | scatter (optional, default=line)
