@@ -12,8 +12,11 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - CSVファイルをアップロード
 - 数値カラムの統計情報をJSONで取得
 - 指定カラムのグラフ画像を生成
-- グラフタイプ選択（line / bar / scatter）
+- グラフタイプ選択(ine / bar / scatter)
+- 複数カラム対応(例： `price / sales`)
 - Swagger UI で操作可能
+
+---
 
 ## Demo
 
@@ -28,13 +31,14 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - pandas
 - matplotlib
 - uvicorn
+- Docker
 
 ---
 
 ## Setup
 
 ```bash
-git clone <this-repository>
+git clone https://github.com/oit2003/csv-api.git
 cd csv-api
 python -m venv venv
 source venv/bin/activate
@@ -45,6 +49,30 @@ pip install fastapi uvicorn pandas matplotlib python-multipart
 
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+---
+
+## Docker
+
+Python環境を用意せずにDockerだけで起動できます。
+
+### Build
+
+```bash
+docker build -t csv-api
+```
+
+### Run
+
+```bash
+docker run -p 8000:8000 csv-api
+```
+
+ブラウザで開く：
+
+```
+http://localhost:8000/docs
 ```
 
 ---
@@ -87,6 +115,8 @@ POST /plot
 
 - file: CSV file
 - column: column name
+  - single: `price`
+  - multiple: `price,sales`
 - type: line | bar | scatter (optional, default=line)
 
 ---
