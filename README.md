@@ -17,6 +17,7 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 - Swagger UI で操作可能
 - Docker 対応
 - HTTPS 公開対応（nginx + Let's Encrypt）
+- DockerHub 公開済み
 
 ---
 
@@ -37,6 +38,17 @@ Pythonによるデータ処理・API設計・可視化の実装例として作�
 This API is publicly available at:
 
 - https://oit2003.com/docs
+
+---
+
+## DockerHub
+
+Pull and run:
+
+```bash
+docker pull oit2003/csv-api
+docker run -p 8000:8000 oit2003/csv-api
+```
 
 ---
 
@@ -71,26 +83,11 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 ---
 
-## Docker
-
-You can run this API without setting up a Python environment.
-
-### Build
+## Docker (Local Build)
 
 ```bash
 docker build -t csv-api .
-```
-
-### Run
-
-```bash
-docker run -d --restart unless-stopped -p 127.0.0.1:8000:8000 csv-api
-```
-
-Open:
-
-```
-https://oit2003.com/docs
+docker run -p 8000:8000 csv-api
 ```
 
 ---
