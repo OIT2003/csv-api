@@ -1,98 +1,98 @@
-# CSV Statistics & Visualization API
+# CSV Analysis API & Portfolio Demo
 
-FastAPI + pandas + matplotlib を使った  
-**CSVをアップロードして統計情報やグラフ画像を返すAPI**です。
-
-Pythonによるデータ処理・API設計・可視化の実装例として作成しました。
+FastAPI + Docker + nginx + HTTPS による  
+CSV 分析・可視化 API の **実行可能ポートフォリオ**です。
 
 ---
 
-## Features
+## 🔗 Demo
 
-- CSVファイルをアップロード
-- 数値カラムの統計情報をJSONで取得
-- 指定カラムのグラフ画像を生成
-- グラフタイプ選択（line / bar / scatter）
-- 複数カラム対応（例: `price,sales`）
-- Swagger UI で操作可能
-- Docker 対応
-- HTTPS 公開対応（nginx + Let's Encrypt）
-- DockerHub 公開済み
+- ポートフォリオトップ  
+  https://www.oit2003.com/
+
+- CSV API 実行画面  
+  https://www.oit2003.com/csv-api/
 
 ---
 
-## Demo
+## 📌 概要
 
-### Local / Docker (Swagger UI)
+CSV ファイルをアップロードすることで、以下を Web UI から直接実行できます。
 
-![Swagger UI](images/swagger-ui.png)
+- 統計情報の算出（count / mean / std / min / max）
+- 折れ線グラフ（line）
+- 棒グラフ（bar）
+- 散布図（scatter）
 
-### Docker (Public Access)
-
-![Docker Swagger UI](images/docker-swagger-ui.png)
-
----
-
-## Public Access
-
-This API is publicly available at:
-
-- https://oit2003.com/docs
+バックエンド・フロントエンド・インフラを一貫して構築しています。
 
 ---
 
-## DockerHub
+## 🖼 スクリーンショット
 
-Pull and run:
+### ポートフォリオトップ
 
-```bash
-docker pull oit2003/csv-api
-docker run -p 8000:8000 oit2003/csv-api
+![Portfolio Top](screenshots/portfolio_top.png)
+
+---
+
+### CSV API 実行画面
+
+![CSV API UI](screenshots/csv_api_ui.png)
+
+---
+
+### Stats 実行結果（統計テーブル）
+
+![Stats Result](screenshots/stats_result.png)
+
+---
+
+### Plot 実行結果（グラフ表示）
+
+![Plot Result](screenshots/plot_result.png)
+
+---
+
+## 🛠 技術スタック
+
+| レイヤ | 技術 |
+|------|------|
+| Backend | FastAPI / Python |
+| Data | pandas / matplotlib |
+| Frontend | HTML / CSS / JavaScript |
+| Container | Docker |
+| Reverse Proxy | nginx |
+| SSL | Let's Encrypt |
+| OS | Raspberry Pi OS (ARM64) |
+
+---
+
+## 📂 構成
+
+```text
+csv-api/
+├── main.py
+├── Dockerfile
+├── requirements.txt
+├── README.md
+└── screenshots/
+    ├── portfolio_top.png
+    ├── csv_api_ui.png
+    ├── stats_result.png
+    └── plot_result.png
+```
+
+```text
+/var/www/html/
+├── index.html
+├── css/style.css
+└── csv-api/index.html
 ```
 
 ---
 
-## Tech Stack
-
-- Python 3.11
-- FastAPI
-- pandas
-- matplotlib
-- uvicorn
-- Docker
-- nginx
-- Let's Encrypt
-
----
-
-## Setup (Local)
-
-```bash
-git clone https://github.com/oit2003/csv-api.git
-cd csv-api
-python -m venv venv
-source venv/bin/activate
-pip install fastapi uvicorn pandas matplotlib python-multipart
-```
-
-Run:
-
-```bash
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-```
-
----
-
-## Docker (Local Build)
-
-```bash
-docker build -t csv-api .
-docker run -p 8000:8000 csv-api
-```
-
----
-
-## API Endpoints
+## 🔌 提供 API
 
 ### Health Check
 
@@ -108,48 +108,54 @@ Response:
 
 ---
 
-### Get Statistics from CSV
+### Stats（統計情報）
 
 ```
-POST /stats
+POST /status
 ```
 
-**Parameters**
+Form Data:
 
-- file: CSV file
+- file: CSV ファイル
 
 ---
 
-### Generate Plot Image
+### Plot（グラフ生成）
 
 ```
 POST /plot
 ```
 
-**Parameters**
+Form Data:
 
-- file: CSV file
-- column: column name  
-  - single: `price`
-  - multiple: `price,sales`
-- type: line | bar | scatter (optional, default=line)
+- file: CSV ファイル
+- column: カラム名（カンマ区切り）
+- type: line / bar / scatter
+
+Response:
+
+- PNG 画像
 
 ---
 
-## Sample CSV
+## 🐳 Docker 実行
 
-```csv
-price,sales
-100,10
-200,20
-300,40
-450,80
-500,120
+```bash
+docker build -t csv-api .
+docker run -d --restart unless-stopped -p 127.0.0.1:8000:8000 csv-api
 ```
 
 ---
 
-## Author
+## 🎯 目的
+
+- FastAPI を用いた実践的 API 設計
+- Docker + nginx + HTTPS による公開運用
+- 採用担当者が **実際に触れるポートフォリオ**の提供
+
+---
+
+## 👤 Author
 
 Yoshihiro Inamasu  
-Python / Linux / API Development
+Python / FastAPI / Docker / Linux
