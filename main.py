@@ -22,7 +22,7 @@ async def stats(file: UploadFile = File(...)):
 
 
 @app.post("/plot")
-async def plot(file: UploadFile = File(...), column: str = Form(...), type: str = "line"):
+async def plot(file: UploadFile = File(...), column: str = Form(...), type: str = Form("line")):
     df = pd.read_csv(file.file)
 
     columns = [c.strip() for c in column.split(",")]
