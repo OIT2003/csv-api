@@ -154,10 +154,10 @@ The API is served behind nginx with HTTPS enabled via Let's Encrypt.
 
 ## 🧪 Verified Environments
 
-  Environment       Architecture   Status
-  ----------------- -------------- -------------
-  Raspberry Pi OS   linux/arm64    ✅ Verified
-  openSUSE Linux    linux/amd64    ✅ Verified
+  | Environment | Architecture | Status |
+  | --- | --- | --- |
+  | Raspberry Pi OS | linux/arm64 | ✅ Verified |
+  | openSUSE Linux | linux/amd64 | ✅ Verified |
 
 ------------------------------------------------------------------------
 
